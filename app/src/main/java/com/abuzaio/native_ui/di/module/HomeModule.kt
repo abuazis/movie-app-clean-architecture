@@ -1,9 +1,7 @@
 package com.abuzaio.native_ui.di.module
 
 import com.abuzaio.native_ui.data.HomeDatasource
-import com.abuzaio.native_ui.presentation.HomeActivity
-import com.abuzaio.native_ui.presentation.HomePresenter
-import com.abuzaio.native_ui.presentation.HomeView
+import com.abuzaio.native_ui.presentation.*
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -20,12 +18,12 @@ abstract class HomeModule {
 
         @JvmStatic
         @Provides
-        fun providesHomePresenter(
-            view: HomeView,
+        fun providesHomeViewModel(
+            callback: HomeViewModelCallback,
             datasource: HomeDatasource,
-        ): HomePresenter = HomePresenter(view, datasource)
+        ): HomeViewModel = HomeViewModel(callback, datasource)
     }
 
     @Binds
-    abstract fun bindHomeView(activity: HomeActivity): HomeView
+    abstract fun bindHomeViewModelCallback(activity: HomeActivity): HomeViewModelCallback
 }

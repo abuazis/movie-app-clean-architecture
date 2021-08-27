@@ -1,17 +1,19 @@
 package com.abuzaio.native_ui.presentation
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.abuzaio.native_ui.R
 import com.abuzaio.native_ui.data.Result
+import com.abuzaio.native_ui.databinding.ItemHomeBinding
+import com.abuzaio.native_ui.presentation.HomeAdapter.HomeViewHolder
 
-class HomeAdapter(private val results: List<Result>) : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
+class HomeAdapter(private val results: List<Result>) : RecyclerView.Adapter<HomeViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         return HomeViewHolder(
-            LayoutInflater.from(parent.context).inflate(
+            DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context),
                 R.layout.item_home,
                 parent,
                 false,
@@ -20,22 +22,15 @@ class HomeAdapter(private val results: List<Result>) : RecyclerView.Adapter<Home
     }
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
-        holder.bind(results[holder.adapterPosition])
+        holder.binding.apply {
+            viewModel = HomeAdapterViewModel(results[holder.adapterPosition])
+            executePendingBindings()
+        }
     }
 
     override fun getItemCount(): Int {
         return results.count();
     }
 
-    inner class HomeViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun bind(result: Result) {
-            with(itemView) {
-                val title = findViewById<TextView>(R.id.tv_title)
-                title.text = result.title
-
-                val overview = findViewById<TextView>(R.id.tv_overview)
-                overview.text = result.overview
-            }
-        }
-    }
+    inner class HomeViewHolder(val binding: ItemHomeBinding) : RecyclerView.ViewHolder(binding.root)
 }
