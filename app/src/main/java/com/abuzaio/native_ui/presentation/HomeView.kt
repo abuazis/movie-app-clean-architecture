@@ -1,8 +1,9 @@
 package com.abuzaio.native_ui.presentation
 
-import com.abuzaio.native_ui.data.Result
+import androidx.lifecycle.LiveData
 
 interface HomeView {
+    val states: LiveData<HomeViewState>
+
     fun discoverMovie()
-    fun onDetach()
 }
