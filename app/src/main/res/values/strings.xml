@@ -3,4 +3,7 @@
     <string name="action_listener">Click!</string>
     <string name="snack">Snack!</string>
     <string name="in_fragment">Hello I`m Fragment</string>
+    <string name="halo_button">Halo Button</string>
+    <string name="halo_text">Halo Text</string>
+    <string name="halo_input_text">Halo Input Text!</string>
 </resources>

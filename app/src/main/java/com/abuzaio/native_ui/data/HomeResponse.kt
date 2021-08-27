@@ -1,4 +1,4 @@
-package com.abuzaio.native_ui
+package com.abuzaio.native_ui.data
 
 import com.google.gson.annotations.SerializedName
 

@@ -7,15 +7,24 @@ import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.abuzaio.native_ui.R
 import com.abuzaio.native_ui.data.Result
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_home.*
+import javax.inject.Inject
 
-class HomeActivity : AppCompatActivity(), HomeView {
+class HomeActivity : DaggerAppCompatActivity(), HomeView {
+    @Inject
+    lateinit var presenter: HomePresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        val presenter = HomePresenter(this)
         presenter.discoverMovie()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDetach()
     }
 
     override fun onShowLoading() {

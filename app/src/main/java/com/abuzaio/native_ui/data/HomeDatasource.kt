@@ -1,6 +1,7 @@
-package com.abuzaio.native_ui
+package com.abuzaio.native_ui.data
 
-import retrofit2.Call
+import com.abuzaio.native_ui.BuildConfig
+import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -9,5 +10,5 @@ interface HomeDatasource {
     fun discoverMovie(
         @Query("api_key")
         apiKey: String = BuildConfig.API_KEY
-    ): Call<HomeResponse>
+    ): Single<HomeResponse>
 }

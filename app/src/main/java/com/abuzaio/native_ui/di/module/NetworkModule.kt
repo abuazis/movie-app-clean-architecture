@@ -1,27 +1,40 @@
 package com.abuzaio.native_ui.di.module
 
+import com.abuzaio.native_ui.BuildConfig
+import dagger.Module
+import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
-class NetworkProvider {
-    fun providesHttpAdapter(): Retrofit {
+@Module
+class NetworkModule {
+    @Provides
+    @Singleton
+    fun providesHttpAdapter(client: OkHttpClient): Retrofit {
         return Retrofit.Builder().apply {
-            client(providesHttpClient())
+            client(client)
             baseUrl(BuildConfig.BASE_URL)
             addConverterFactory(GsonConverterFactory.create())
+            addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
         }.build()
     }
 
-    private fun providesHttpClient(): OkHttpClient {
+    @Provides
+    @Singleton
+    fun providesHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder().apply {
             retryOnConnectionFailure(true)
-            addInterceptor(providesHttpLoggingInterceptor())
+            addInterceptor(interceptor)
         }.build()
     }
 
-    private fun providesHttpLoggingInterceptor(): HttpLoggingInterceptor {
+    @Provides
+    @Singleton
+    fun providesHttpLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
             level = when (BuildConfig.DEBUG) {
                 true -> HttpLoggingInterceptor.Level.BODY
